@@ -5,27 +5,12 @@ $(function() {
     $('#show').hide()
 })
 
-
-function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function(e) {
-            $('#blah')
-                .attr('src', e.target.result)
-                .width(150)
-                .height(200);
-        };
-
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-
 showList = () => {
     $('#show').html('')
     for (const address of addresses) {
         $('#show').append(
             `<div class='list' id='${address.id}'><strong>${address.name}</strong>
+          click to view contact details
       <div>
       <button class='btn btn-primary edit' id='${address.id}' >Edit</button>
       <button class='delete btn btn-danger' id='${address.id}'>Delete</button> 
@@ -51,18 +36,14 @@ $('#submit').click(() => {
     var phone = $('#phone').val()
     var address = $('#address').val()
     let formId = $('#id').val()
-    let image = $('#image').val()
     let addressId = id += 1
 
-    var file = $('#image').toString()
-
-    console.log(file)
     if (formId) {
         addresses = addresses.filter(address => address.id !== parseInt(formId))
         addressId = parseInt(formId)
     }
 
-    addresses.push({ name, email, phone, address, id: addressId, image })
+    addresses.push({ name, email, phone, address, id: addressId })
     clearForm()
     showList()
 })
@@ -81,22 +62,22 @@ showDetails = (obj) => {
 
     if (obj === undefined) return null
 
-    $('#' + obj.id).html('')
-    $('#' + obj.id).append(
-        `<div class='show'>
-    <img id="blah" src="#" alt="your image" />
+    $(`#${obj.id}`).html('')
+    $(`#${obj.id}`).append(
+        `<div id=''>
+    <img id='imagetoload' src=''/>
     <p> <strong>Name: </strong>${obj.name}</p>
     <p> <strong>Email: </strong>${obj.email}</p>
     <p> <strong>Phone: </strong>${obj.phone} </p>
     <p> <strong>Address: </strong>${obj.address}</p>
-    <div>
+    <div class='detailsButton'>
     <button class='btn btn-primary edit' id='${obj.id}'>Edit</button> 
     <button class='delete btn btn-danger' id='${obj.id}'>Delete</button>
     <button id='back' class='btn btn-default'>Back</button>
     </div>
     </div>`
     )
-    $('#' + obj.id).show()
+    $(`#${obj.id}`).show()
 }
 
 $('#show').on('click', $('.list'), (event) => {
@@ -106,7 +87,10 @@ $('#show').on('click', $('.list'), (event) => {
 
         showDetails(addrs[0])
         $('#show').show()
-        readURL(this)
+        loadImageFileAsURL()
+        console.log(addresses);
+        // console.log(imgArray)
+
     }
 })
 
@@ -135,3 +119,37 @@ $('#show').on('click', $('.delete'), (event) => {
 $('#show').on('click', $('.back'), (event) => {
     event.target.id === 'back' && showList()
 })
+
+
+// getImageValue = () => {
+//     let imageString = null
+//     let filesSelected = document.getElementById("image").files;
+//     let fileToLoad = filesSelected[0];
+//     let fileReader = new FileReader();
+//     fileReader.onload = function(fileLoadedEvent) {
+//         imageString = fileLoadedEvent.target.result;
+//     }
+//     console.log(imageString)
+//     return imageString
+// }
+
+function main() {
+    let inputFileToLoad = document.getElementById("image");
+    inputFileToLoad.type = "file";
+}
+
+function loadImageFileAsURL() {
+    let filesSelected = document.getElementById("image").files;
+    if (filesSelected.length > 0) {
+        let fileToLoad = filesSelected[0];
+
+        if (fileToLoad.type.match("image.*")) {
+            let fileReader = new FileReader();
+            fileReader.onload = function(fileLoadedEvent) {
+                let imageLoaded = document.getElementById("imagetoload");
+                imageLoaded.src = fileLoadedEvent.target.result;
+            };
+            fileReader.readAsDataURL(fileToLoad);
+        }
+    }
+}

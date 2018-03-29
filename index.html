@@ -11,6 +11,7 @@
 </head>
 
 <body>
+    <h1>Address Book</h1>
     <button class="btn btn-default" id='add'>Add Contact</button>
 
     <div id='show'>
@@ -22,23 +23,23 @@
     <div class='form hidden' id='form'>
         <input name='id' type='hidden' class='input' id='id' />
         <div>
-            <labe>Name</labe>
+            <label>Name</label>
             <input name='name' type='text' class='input' id='name' />
         </div>
         <div>
-            <labe>Email</labe>
+            <label>Email</label>
             <input name='email' type='email' class='input' id='email' />
         </div>
         <div>
-            <labe>Phone</labe>
+            <label>Phone</label>
             <input name='phone' type='text' class='input' id='phone' />
         </div>
         <div>
-            <labe>Address</labe>
+            <label>Address</label>
             <textarea name='address' class='input' id='address' rows=3></textarea>
         </div>
         <div class='image'>
-            <labe>Image</labe>
+            <label id='imageLabel'>Image</label>
             <input type="file" name="image" accept="image/*" id='image'>
         </div>
         <button class="btn btn-success" id='submit'>Submit</button>
