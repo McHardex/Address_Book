@@ -36,16 +36,23 @@ $('#submit').click(() => {
     var phone = $('#phone').val()
     var address = $('#address').val()
     let formId = $('#id').val()
+        // let image = getImageValue()
     let addressId = id += 1
+    let filesSelected = $("#image")[0].files[0];
+    let fileReader = new FileReader();
+    fileReader.readAsDataURL(filesSelected);
 
-    if (formId) {
-        addresses = addresses.filter(address => address.id !== parseInt(formId))
-        addressId = parseInt(formId)
-    }
+    fileReader.onloadend = () => {
+        if (formId) {
+            addresses = addresses.filter(address => address.id !== parseInt(formId))
+            addressId = parseInt(formId)
+        }
 
-    addresses.push({ name, email, phone, address, id: addressId })
-    clearForm()
-    showList()
+        addresses.push({ name, email, phone, address, id: addressId, image: fileReader.result })
+        clearForm()
+        showList()
+    };
+
 })
 
 clearForm = () => {
@@ -65,7 +72,7 @@ showDetails = (obj) => {
     $(`#${obj.id}`).html('')
     $(`#${obj.id}`).append(
         `<div id=''>
-    <img id='imagetoload' src=''/>
+    <img id='img${obj.id}' src='#' class='image'/>
     <p> <strong>Name: </strong>${obj.name}</p>
     <p> <strong>Email: </strong>${obj.email}</p>
     <p> <strong>Phone: </strong>${obj.phone} </p>
@@ -77,6 +84,7 @@ showDetails = (obj) => {
     </div>
     </div>`
     )
+    $(`#img${obj.id}`).attr('src', obj.image)
     $(`#${obj.id}`).show()
 }
 
@@ -87,9 +95,9 @@ $('#show').on('click', $('.list'), (event) => {
 
         showDetails(addrs[0])
         $('#show').show()
-        loadImageFileAsURL()
-        console.log(addresses);
-        // console.log(imgArray)
+            // loadImageFileAsURL()
+            // console.log(addresses);
+            // console.log(imgArray)
 
     }
 })
@@ -122,34 +130,39 @@ $('#show').on('click', $('.back'), (event) => {
 
 
 // getImageValue = () => {
-//     let imageString = null
-//     let filesSelected = document.getElementById("image").files;
-//     let fileToLoad = filesSelected[0];
+//     let filesSelected = $("#image")[0].files[0];
 //     let fileReader = new FileReader();
+
 //     fileReader.onload = function(fileLoadedEvent) {
-//         imageString = fileLoadedEvent.target.result;
-//     }
+//         // let imageLoaded = document.getElementById("imagetoload");
+//         console.log(fileLoadedEvent.target.result);
+
+//     };
+
+//     let imageString = fileReader.readAsDataURL(filesSelected);
+//     // console.log(imageString.result)
 //     console.log(imageString)
-//     return imageString
+//     console.log(filesSelected)
+//         // return imageString
 // }
 
-function main() {
-    let inputFileToLoad = document.getElementById("image");
-    inputFileToLoad.type = "file";
-}
+// function main() {
+//     let inputFileToLoad = document.getElementById("image");
+//     inputFileToLoad.type = "file";
+// }
 
-function loadImageFileAsURL() {
-    let filesSelected = document.getElementById("image").files;
-    if (filesSelected.length > 0) {
-        let fileToLoad = filesSelected[0];
+// function loadImageFileAsURL() {
+//     let filesSelected = document.getElementById("image").files;
+//     if (filesSelected.length > 0) {
+//         let fileToLoad = filesSelected[0];
 
-        if (fileToLoad.type.match("image.*")) {
-            let fileReader = new FileReader();
-            fileReader.onload = function(fileLoadedEvent) {
-                let imageLoaded = document.getElementById("imagetoload");
-                imageLoaded.src = fileLoadedEvent.target.result;
-            };
-            fileReader.readAsDataURL(fileToLoad);
-        }
-    }
-}
+//         if (fileToLoad.type.match("image.*")) {
+//             let fileReader = new FileReader();
+//             fileReader.onload = function(fileLoadedEvent) {
+//                 let imageLoaded = document.getElementById("imagetoload");
+//                 imageLoaded.src = fileLoadedEvent.target.result;
+//             };
+//             fileReader.readAsDataURL(fileToLoad);
+//         }
+//     }
+// }
