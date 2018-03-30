@@ -95,10 +95,6 @@ $('#show').on('click', $('.list'), (event) => {
 
         showDetails(addrs[0])
         $('#show').show()
-            // loadImageFileAsURL()
-            // console.log(addresses);
-            // console.log(imgArray)
-
     }
 })
 
