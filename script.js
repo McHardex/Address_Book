@@ -36,7 +36,6 @@ $('#submit').click(() => {
     var phone = $('#phone').val()
     var address = $('#address').val()
     let formId = $('#id').val()
-        // let image = getImageValue()
     let addressId = id += 1
     let filesSelected = $("#image")[0].files[0];
     let fileReader = new FileReader();
