@@ -3,6 +3,7 @@ let id = 0
 
 $(function() {
     $('#show').hide()
+    $('#autocomplete').hide()
 })
 
 showList = () => {
@@ -13,7 +14,7 @@ showList = () => {
           click to view contact details
       <div>
       <button class='btn btn-primary edit' id='${address.id}' >Edit</button>
-      <button class='delete btn btn-danger' id='${address.id}'>Delete</button> 
+      <button class='delete btn btn-danger' id='${address.id}'>Delete</button>
       </div>
       </div>`
         )
@@ -51,7 +52,7 @@ $('#submit').click(() => {
         clearForm()
         showList()
     };
-
+    $('#autocomplete').show()
 })
 
 clearForm = () => {
@@ -59,7 +60,10 @@ clearForm = () => {
     for (const input of inputs) input.value = ''
 }
 
-$('#add').click(() => { hideList() })
+$('#add').click(() => {
+    hideList()
+    $('#autocomplete').hide()
+})
 
 $('#close').click(() => { showList() })
 
@@ -77,7 +81,7 @@ showDetails = (obj) => {
     <p> <strong>Phone: </strong>${obj.phone} </p>
     <p> <strong>Address: </strong>${obj.address}</p>
     <div class='detailsButton'>
-    <button class='btn btn-primary edit' id='${obj.id}'>Edit</button> 
+    <button class='btn btn-primary edit' id='${obj.id}'>Edit</button>
     <button class='delete btn btn-danger' id='${obj.id}'>Delete</button>
     <button id='back' class='btn btn-default'>Back</button>
     </div>
@@ -98,7 +102,7 @@ $('#show').on('click', $('.list'), (event) => {
 })
 
 $('#show').on('click', $('.edit'), (event) => {
-    if (event.target.id && event.target.className.split(' ').includes('edit')) {
+    if (event.target.id && event.target.className.includes('edit')) {
         var id = parseInt(event.target.id)
         let addrs = addresses.filter(address => address.id === id)[0]
 
@@ -110,7 +114,7 @@ $('#show').on('click', $('.edit'), (event) => {
 })
 
 $('#show').on('click', $('.delete'), (event) => {
-    if (event.target.id && event.target.className.split(' ').includes('delete')) {
+    if (event.target.id && event.target.className.includes('delete')) {
         var id = parseInt(event.target.id)
         if (confirm('Are you sure you want to delete this contact?')) {
             addresses = addresses.filter(address => address.id !== id)
@@ -121,4 +125,35 @@ $('#show').on('click', $('.delete'), (event) => {
 
 $('#show').on('click', $('.back'), (event) => {
     event.target.id === 'back' && showList()
+})
+
+renderShow = (addressesArray) => {
+    $('#show').html('')
+
+    for (const address of addressesArray) {
+        return (
+            $('#show').append(
+                `<div class='list' id='${address.id}'><strong>${address.name}</strong>
+    click to view contact details
+        <div>
+        <button class='btn btn-primary edit' id='${address.id}' >Edit</button>
+        <button class='delete btn btn-danger' id='${address.id}'>Delete</button>
+        </div>
+        </div>`
+            )
+        )
+    }
+}
+
+$('#autocomplete').on("change keyup paste", (event) => {
+    let searchContent = event.target.value.toLowerCase()
+    let searchAddresses = addresses.filter(address => {
+        return (
+            address.name.toLowerCase().includes(searchContent) ||
+            address.phone.toLowerCase().includes(searchContent) ||
+            address.email.toLowerCase().includes(searchContent) ||
+            address.address.toLowerCase().includes(searchContent)
+        )
+    })
+    renderShow(searchAddresses)
 })

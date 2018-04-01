@@ -111,3 +111,14 @@ h1 {
 .image {
     width: 300px;
 }
+
+input#autocomplete {
+    float: right;
+    padding: 5px;
+    border: solid #e1e1e1 1px;
+    margin-bottom: 10px;
+    width: 30%;
+    border-radius: 5px;
+    height: 25px;
+    margin-top: 5px;
+}
