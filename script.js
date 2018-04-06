@@ -65,7 +65,10 @@ $('#add').click(() => {
     $('#autocomplete').hide()
 })
 
-$('#close').click(() => { showList() })
+$('#close').click(() => {
+    showList()
+    $('#autocomplete').show()
+})
 
 showDetails = (obj) => {
     showList()
@@ -123,7 +126,7 @@ $('#show').on('click', $('.delete'), (event) => {
     }
 })
 
-$('#show').on('click', $('.back'), (event) => {
+$('#show').on('click', $('#back'), (event) => {
     event.target.id === 'back' && showList()
 })
 
