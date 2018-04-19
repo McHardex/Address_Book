@@ -38,11 +38,15 @@ submit.addEventListener('click', () => {
     var formId = document.getElementById('id').value;
     var addressId = id += 1
 
+    if (formId) {
+        addresses = addresses.filter(address => address.id !== parseInt(formId))
+        addressId = parseInt(formId)
+    }
+
     addresses.push({ name, email, phone, address, id: addressId })
     clearForm()
     showList()
     document.getElementById('autocomplete').style.display = 'block';
-    let addrs = addresses.filter(address => address.id === id)
 })
 
 clearForm = () => {
@@ -101,8 +105,6 @@ show.addEventListener('click', (e) => {
         var id = parseInt(e.target.id)
         let addrs = addresses.filter(address => address.id === id)[0]
         hideList()
-        document.getElementById('close').style.display = 'none';
-        addresses.splice(addrs, 1)
         var inputs = document.getElementsByClassName('input');
         for (const input of inputs) input.value = addrs[input.name]
     }
