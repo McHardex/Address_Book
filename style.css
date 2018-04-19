@@ -55,7 +55,7 @@ h1 {
 }
 
 #show {
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: space-between;
     padding: 20px;
@@ -121,4 +121,5 @@ input#autocomplete {
     border-radius: 5px;
     height: 25px;
     margin-top: 5px;
+    display: none;
 }
